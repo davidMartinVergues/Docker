@@ -27,6 +27,15 @@
     - [SAVE AND LOAD IMAGES AS FILES](#save-and-load-images-as-files)
 - [Usando docker para desarrollar aplicaciones](#usando-docker-para-desarrollar-aplicaciones)
 - [Comandos docker](#comandos-docker)
+  - [* `docker build -t [name:tag] -f path_to_dockerfile` -> construye una imagen especificando el path dnd stá el dockerfile](#-docker-build--t-nametag--f-path_to_dockerfile---construye-una-imagen-especificando-el-path-dnd-stá-el-dockerfile)
+  - [* `docker container exec -it containerName bash` -> ejecuta el comando en un container ya running](#-docker-container-exec--it-containername-bash---ejecuta-el-comando-en-un-container-ya-running)
+  - [* `docker exec -it alwaysup bash` -> exec nos permite correr un proceso dentro del contenedor](#-docker-exec--it-alwaysup-bash---exec-nos-permite-correr-un-proceso-dentro-del-contenedor)
+  - [* `docker inspect imageName` -> nos da la configuración de esa imagen](#-docker-inspect-imagename---nos-da-la-configuración-de-esa-imagen)
+  - [* `docker login` -> log into docker hub](#-docker-login---log-into-docker-hub)
+  - [* `docker pull` -> download an image form your registry (usually DockerHub)](#-docker-pull---download-an-image-form-your-registry-usually-dockerhub)
+  - [* `docker rmi imageName` -> borra la imagen especificada](#-docker-rmi-imagename---borra-la-imagen-especificada)
+  - [* `docker system prune -a ` -> borra todas las imágenes que no tengan un contenedor corriendo](#-docker-system-prune--a----borra-todas-las-imágenes-que-no-tengan-un-contenedor-corriendo)
+  - [* `docker volumes prune` -> para eliminar tb volumenes unused](#-docker-volumes-prune---para-eliminar-tb-volumenes-unused)
 
 ## Installation
 
@@ -805,20 +814,46 @@ $ docker load -i my-webserver_v1.tar
 
 # Comandos docker
 
+* `docker build -t [name:tag] .` -> construye una imagen usando el dockerfile que se en el mismo directorio dnd se ejecuta el comando(.), a la imagen le asocia una tag 
+* `docker build -t [name:tag] -f path_to_dockerfile` -> construye una imagen especificando el path dnd stá el dockerfile
+---
+* `docker container prune` -> borra todos los containers parados
+* `docker container exec -it containerName bash` -> ejecuta el comando en un container ya running
+  ---
+* `docker exec -it alwaysup bash` -> exec nos permite correr un proceso dentro del contenedor
+  ---
+* `docker images` -> nos saca todas las imágenes que tenemos guardadas
+* `docker image inspect imageID` -> nos da info de configuración de la imagen.
 * `docker info`
-* `docker run image-name`
+* `docker inspect container_ID` -> nos da la configuración de ese contenedor
+* `docker inspect imageName` -> nos da la configuración de esa imagen
+  ---
+* `docker kill containerName` -> eliminas el contenedor
+* `docker login` -> log into docker hub
+  ---
 * `docker ps` -> contenedores que están corriendo actualmente
 * `docker ps -a` -> todos los contenedores corriendo/parados
-* `docker inspect container_ID` -> nos la configuración de ese contenedor
+* `docker pull` -> download an image form your registry (usually DockerHub)
+  ---
+* `docker run image-name`  -> genera un contenedor a partir de la imagen
+* `docker run -d imageName` -> corres la imagen en detached mode (en background)
 * `docker run --name myContainer image-name` -> nos permite darle un nombre al contenedor
-* `docker rename myContainer myContainer2` -> renombrar un contenedor
-* `docker rm nombre/ID_container nombre/ID_container` -> borrar uno o varios contenedores especificando el nombre
-* `docker container prune` -> borra todos los containers parados
-* `docker image inspect imageID` -> nos da info de configuración de la imagen.
-* `docker system prune -a` -> elimina containers, networks, images and build cache que no se estén usando
-* `docker volumes prune` -> para eliminar tb volumenes unused
+* `docker run --publish 80:80 --name myContainer image-name` -> nos permite darle un nombre al contenedor y mapear un puerto
 * `docker run -it ubuntu` -> modo interactivo
-* `docker exec -it alwaysup bash` -> exec nos permite correr un proceso dentro del contenedor
+* `docker run -it imageName /bin/bash`  -> corres el contenedor y entramos al bash del mismo
+* `docker rename myContainer myContainer2` -> renombrar un contenedor
+* `docker rm nombre/ID_container nombre/ID_container` -> borrar uno o varios contenedores especificando el nombre siempre y cuando estos estén parados
+* `docker rm $(docker ps -a -q)` -> borra todos los contenedores parados
+* `docker rmi imageName` -> borra la imagen especificada
+  ---
+* `docker start containerName` -> arrancas un contenedor detenido
+* `docker stop containerName` -> detienes el contenedor pero este se queda en memoria
+* `docker system prune -a` -> elimina containers, networks, images and build cache que no se estén usando
+* `docker system prune -a ` -> borra todas las imágenes que no tengan un contenedor corriendo
+  ---
+* `docker volumes prune` -> para eliminar tb volumenes unused
+  ---
+
 
 
 
